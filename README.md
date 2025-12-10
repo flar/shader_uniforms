@@ -111,6 +111,11 @@ class MyShader {
 which could be used as:
 
 ```dart
+  // Somewhere during app initialization:
+  // ...
+  // await MyShader.init(); // Loads fragment program
+  // ...
+
   @override
   void paint(Canvas canvas, Size size) {
     final MyShader myShader = MyShader()

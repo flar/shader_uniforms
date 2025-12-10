@@ -3,6 +3,10 @@
 // found in the LICENSE file.
 
 export 'src/mat4.dart';
+export 'src/named_uniform_mat4.dart';
+export 'src/named_uniform_vec2.dart';
+export 'src/named_uniform_vec3.dart';
+export 'src/named_uniform_vec4.dart';
 export 'src/vec2.dart';
 export 'src/vec3.dart';
 export 'src/vec4.dart';

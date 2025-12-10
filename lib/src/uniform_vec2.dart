@@ -29,7 +29,10 @@ class UniformVec2 extends Vec2 {
   ///
   /// * [FragmentShader.setFloat], used to update the uniform values in
   ///   the supplied [shader] object.
-  UniformVec2(this.shader, this.base);
+  UniformVec2({
+    required this.shader,
+    required this.base,
+  });
 
   /// Set the x sub-field of the associated vec2 uniform both in the
   /// base class and in the float uniforms of the associated shader.

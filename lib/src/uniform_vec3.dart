@@ -29,7 +29,10 @@ class UniformVec3 extends Vec3 {
   ///
   /// * [FragmentShader.setFloat], used to update the uniform values in
   ///   the supplied [shader] object.
-  UniformVec3(this.shader, this.base);
+  UniformVec3({
+    required this.shader,
+    required this.base,
+  });
 
   /// Set the x sub-field of the associated vec3 uniform.
   @override

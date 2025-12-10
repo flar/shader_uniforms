@@ -4,6 +4,9 @@
 
 import 'dart:ui';
 
+import 'package:shader_uniforms/shader_uniforms.dart';
+import 'package:shader_uniforms/src/named_uniform_vec3.dart';
+
 /// A 3 element vector class that mimics the field access behaviors of
 /// a GPU vec3 variable.
 ///
@@ -30,6 +33,14 @@ class Vec3 {
   /// initialized to 0s.
   Vec3([double v0 = 0.0, double v1 = 0.0, double v2 = 0.0])
       : x = v0, y = v1, z = v2;
+
+  factory Vec3.fromIndex(FragmentShader shader, int base) {
+    return UniformVec3(shader: shader, base: base);
+  }
+
+  factory Vec3.fromName(FragmentShader shader, String name) {
+    return NamedUniformVec3(shader: shader, name: name);
+  }
 
   /// Set the x sub-field of the associated vec3 uniform.
   double x;

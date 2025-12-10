@@ -25,19 +25,18 @@ import 'package:shader_uniforms/src/named_uniform_vec2.dart';
 /// - [] - indexing the elements as if they were a list:
 /// - [0] - the x element
 /// - [1] - the y element
-/// - [2] - the z element
 class Vec2 {
   /// Instantiate a Vec2 object with optional data, otherwise fields are
   /// initialized to 0s.
   Vec2([double v0 = 0.0, double v1 = 0.0])
     : x = v0, y = v1;
 
-  factory Vec2.fromIndex(FragmentShader shader, int index) {
-    return UniformVec2(shader, index);
+  factory Vec2.fromIndex(FragmentShader shader, int base) {
+    return UniformVec2(shader: shader, base: base);
   }
 
   factory Vec2.fromName(FragmentShader shader, String name) {
-    return NamedUniformVec2(shader, name);
+    return NamedUniformVec2(shader: shader, name: name);
   }
 
   double x;

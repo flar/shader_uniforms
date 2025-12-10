@@ -35,8 +35,8 @@ class Vec2 {
     return UniformVec2(shader: shader, base: base);
   }
 
-  factory Vec2.fromName(FragmentShader shader, String name) {
-    return NamedUniformVec2(shader: shader, name: name);
+  factory Vec2.fromName(FragmentShader shader, String name, [int offset = 0]) {
+    return NamedUniformVec2(shader: shader, name: name, offset: offset);
   }
 
   double x;

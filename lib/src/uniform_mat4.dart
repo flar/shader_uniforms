@@ -38,12 +38,16 @@ class UniformMat4 extends Mat4 {
   ///
   /// * [FragmentShader.setFloat], used to update the uniform values in
   ///   the supplied [shader] object.
-  UniformMat4(this.shader, this.base)
+  UniformMat4({
+    required this.shader,
+    required this.base,
+    int offset = 0,
+  })
   : super.using(
-      UniformVec4(shader, base + 0),
-      UniformVec4(shader, base + 4),
-      UniformVec4(shader, base + 8),
-      UniformVec4(shader, base + 12));
+      UniformVec4(shader: shader, base: base + 0),
+      UniformVec4(shader: shader, base: base + 4),
+      UniformVec4(shader: shader, base: base + 8),
+      UniformVec4(shader: shader, base: base + 12));
 
   /// The [FragmentShader] instance in which the associated mat4 is a uniform.
   final FragmentShader shader;

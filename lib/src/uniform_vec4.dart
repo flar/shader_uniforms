@@ -29,7 +29,10 @@ class UniformVec4 extends Vec4 {
   ///
   /// * [FragmentShader.setFloat], used to update the uniform values in
   ///   the supplied [shader] object.
-  UniformVec4(this.shader, this.base);
+  UniformVec4({
+    required this.shader,
+    required this.base,
+  });
 
   /// Set the x sub-field of the associated vec4 uniform.
   @override

@@ -38,8 +38,8 @@ class Vec3 {
     return UniformVec3(shader: shader, base: base);
   }
 
-  factory Vec3.fromName(FragmentShader shader, String name) {
-    return NamedUniformVec3(shader: shader, name: name);
+  factory Vec3.fromName(FragmentShader shader, String name, [int offset = 0]) {
+    return NamedUniformVec3(shader: shader, name: name, offset: offset);
   }
 
   /// Set the x sub-field of the associated vec3 uniform.

@@ -4,6 +4,8 @@
 
 import 'dart:ui';
 
+import 'package:shader_uniforms/shader_uniforms.dart';
+
 /// A 4 element vector class that mimics the field access behaviors of
 /// a GPU vec4 variable.
 ///
@@ -35,6 +37,14 @@ class Vec4 {
   /// initialized to 0s.
   Vec4([double v0 = 0.0, double v1 = 0.0, double v2 = 0.0, double v3 = 0.0])
       : x = v0, y = v1, z = v2, w = v3;
+
+  factory Vec4.fromIndex(FragmentShader shader, int base) {
+    return UniformVec4(shader: shader, base: base);
+  }
+
+  factory Vec4.fromName(FragmentShader shader, String name, [int offset = 0]) {
+    return NamedUniformVec4(shader: shader, name: name, offset: offset);
+  }
 
   /// Set the x sub-field of the associated vec4 uniform.
   double x;

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:shader_uniforms/shader_uniforms.dart';
@@ -24,6 +25,14 @@ class Mat4 {
   /// Instantiate a Mat4 class with all matrix elements initialized to
   /// zeros.
   Mat4() : _columns = <Vec4>[Vec4(), Vec4(), Vec4(), Vec4()];
+
+  factory Mat4.fromIndex(FragmentShader shader, int base) {
+    return UniformMat4(shader: shader, base: base);
+  }
+
+  factory Mat4.fromName(FragmentShader shader, String name, [int offset = 0]) {
+    return NamedUniformMat4(shader: shader, name: name, offset: offset);
+  }
 
   /// Instantiate a Mat4 class with the indicated Vec4 objects as the
   /// columns. Note that no effort is made to distinguish whether these

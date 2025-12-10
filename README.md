@@ -20,8 +20,8 @@ This package provides Dart classes to set the uniforms of a shader object using
 common GPU type syntax, such as:
 
 ```dart
-  var uColor = UniformVec4(shader, uColorIndex);
-  var uPos = UniformVec2(shader, 'uPos');
+  var uColor = Vec4.fromIndex(shader, uColorIndex);
+  var uPos = Vec2.fromName(shader, 'uPos');
   uColor.color = Colors.red;
   uPos.xy = Offset(10, 15);
 ```
@@ -67,7 +67,7 @@ Then you can use, for instance, a CustomPainter.paint method like this:
   @override
   void paint(Canvas canvas, Size size) {
     var shader = myProgram.shaderProgram();
-    var uColor = UniformVec4(shader, 'uColor');
+    var uColor = Vec4.fromName(shader, 'uColor');
     // Or, uColor = UniformVec4(shader, 0);
     uColor.color = Colors.green;
     shader.setFloat(4, scale);
@@ -92,7 +92,7 @@ class MyShader {
 
   final FragmentShader shader;
 
-  late final Vec4 uColor = UniformVec4(shader, 0);
+  late final Vec4 uColor = Vec4.fromIndex(shader, 0); // or from name
 
   double _uScale = 0.0;
   set uScale(double value) {

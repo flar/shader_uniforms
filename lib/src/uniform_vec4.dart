@@ -1,0 +1,66 @@
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:ui';
+
+import 'package:shader_uniforms/shader_uniforms.dart';
+
+/// A utility class to manage the uniform fields of a `vec4` uniform in
+/// a shader `.frag` file.
+///
+/// This class also subclasses the base Vec4 object providing read and write
+/// access to the data. Though the data is not fetched from the shader and
+/// instead is remembered by the base class which means the data can get out
+/// of sync if multiple UniformVec3 objects are instantiated with the same
+/// shader and base offset, or if the shader uniforms are set using other
+/// means. If this class is used to manage shader uniform data, then no other
+/// mechanisms should be used to modify that uniform data.
+///
+/// See also:
+///
+/// * [FragmentShader.setFloat] which can also update the uniform values in
+///   the supplied [shader] object.
+class UniformVec4 extends Vec4 {
+  /// Instantiate a wrapper that will manipulate the vec4 fields on the
+  /// indicated FragmentShader located at the indicated `base`.
+  ///
+  /// See also:
+  ///
+  /// * [FragmentShader.setFloat], used to update the uniform values in
+  ///   the supplied [shader] object.
+  UniformVec4(this.shader, this.base);
+
+  /// Set the x sub-field of the associated vec4 uniform.
+  @override
+  set x(double x) {
+    super.x = x;
+    shader.setFloat(base + 0, x);
+  }
+
+  /// Set the y sub-field of the associated vec4 uniform.
+  @override
+  set y(double y) {
+    super.y = y;
+    shader.setFloat(base + 1, y);
+  }
+
+  /// Set the z sub-field of the associated vec4 uniform.
+  @override
+  set z(double z) {
+    super.z = z;
+    shader.setFloat(base + 2, z);
+  }
+
+  /// Set the w sub-field of the associated vec4 uniform.
+  @override
+  set w(double w) {
+    super.w = w;
+    shader.setFloat(base + 3, w);
+  }
+
+  /// The [FragmentShader] instance in which the associated vec4 is a uniform.
+  final FragmentShader shader;
+  /// The integer index base of the associated vec4 uniform within the shader.
+  final int base;
+}

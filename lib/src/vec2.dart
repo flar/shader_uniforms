@@ -5,7 +5,6 @@
 import 'dart:ui';
 
 import 'package:shader_uniforms/shader_uniforms.dart';
-import 'package:shader_uniforms/src/named_uniform_vec2.dart';
 
 /// A 2 element vector class that mimics the field access behaviors of
 /// a GPU vec2 variable.
@@ -42,23 +41,33 @@ class Vec2 {
   double x;
   double y;
 
-  /// Set the s sub-field of the associated vec2 uniform (aliased to [x]).
+  /// Set the s sub-field of the vec2 (aliased to [x]).
   set s(double s) => x = s;
   double get s => x;
 
-  /// Set the t sub-field of the associated vec2 uniform (aliased to [y]).
+  /// Set the t sub-field of the vec2 (aliased to [y]).
   set t(double t) => y = t;
   double get t => y;
 
-  /// Set both the [x] and [y] sub-fields of the associated vec2 uniform.
+  /// Set both the [x] and [y] sub-fields of the vec2.
   set xy(Offset o) { x = o.dx; y = o.dy; }
   Offset get xy => Offset(x, y);
 
-  /// Set both the [s] and [t] sub-fields of the associated vec2 uniform.
+  /// Set both the [s] and [t] sub-fields of the vec2 (aliased to [x] and [y]).
   set st(Offset o) => xy = o;
   Offset get st => xy;
 
-  /// Set a sub-field of the associated vec2 uniform by index.
+  /// Set both sub-fields of the vec2 to the 2 provided values.
+  /// These values can represent any of (in order):
+  /// - x, y
+  /// - r, g
+  /// - s, t
+  void set(double v0, double v1) {
+    x = v0;
+    y = v1;
+  }
+
+  /// Set a sub-field of the vec2 by index.
   /// * index 0 sets the [x] or [s] sub-field.
   /// * index 1 sets the [y] or [t] sub-field.
   void operator []=(int index, double v) {
@@ -74,7 +83,7 @@ class Vec2 {
     }
   }
 
-  /// Get a sub-field of the associated vec2 uniform by index.
+  /// Get a sub-field of the vec2 by index.
   /// * index 0 gets the [x] or [s] sub-field.
   /// * index 1 gets the [y] or [t] sub-field.
   double operator[](int index) {

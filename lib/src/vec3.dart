@@ -5,7 +5,6 @@
 import 'dart:ui';
 
 import 'package:shader_uniforms/shader_uniforms.dart';
-import 'package:shader_uniforms/src/named_uniform_vec3.dart';
 
 /// A 3 element vector class that mimics the field access behaviors of
 /// a GPU vec3 variable.
@@ -16,6 +15,10 @@ import 'package:shader_uniforms/src/named_uniform_vec3.dart';
 /// - x - the first element
 /// - y - the second element
 /// - z - the third element
+///
+/// - r - an alias for the first element
+/// - g - an alias for the second element
+/// - b - an alias for the third element
 ///
 /// - s - an alias for the first element
 /// - t - an alias for the second element
@@ -42,34 +45,68 @@ class Vec3 {
     return NamedUniformVec3(shader: shader, name: name, offset: offset);
   }
 
-  /// Set the x sub-field of the associated vec3 uniform.
+  /// Set the x sub-field of the vec3.
   double x;
-  /// Set the y sub-field of the associated vec3 uniform.
+  /// Set the y sub-field of the vec3.
   double y;
-  /// Set the z sub-field of the associated vec3 uniform.
+  /// Set the z sub-field of the vec3.
   double z;
 
-  /// Set the s sub-field of the associated vec3 uniform.
+  /// Set the s sub-field of the vec3 (aliased to [x]).
   set s(double s) => x = s;
   double get s => x;
 
-  /// Set the t sub-field of the associated vec3 uniform.
+  /// Set the t sub-field of the vec3 (aliased to [y]).
   set t(double t) => y = t;
   double get t => y;
 
-  /// Set the p sub-field of the associated vec3 uniform.
+  /// Set the p sub-field of the vec3 (aliased to [z]).
   set p(double p) => z = p;
   double get p => z;
 
-  /// Set both the [x] and [y] sub-fields of the associated vec3 uniform.
+  /// Set the r sub-field of the vec3 (aliased to [x]).
+  set r(double r) => x = r;
+  double get r => x;
+
+  /// Set the g sub-field of the vec3 (aliased to [y]).
+  set g(double g) => y = g;
+  double get g => y;
+
+  /// Set the b sub-field of the vec3 (aliased to [z]).
+  set b(double b) => z = b;
+  double get b => z;
+
+  /// Set both the [x] and [y] sub-fields of the vec3.
   set xy(Offset o) { x = o.dx; y = o.dy; }
   Offset get xy => Offset(x, y);
 
-  /// Set both the [s] and [t] sub-fields of the associated vec3 uniform.
+  /// Set both the [s] and [t] sub-fields of the vec3 (aliased to [x] and [y]).
   set st(Offset o) => xy = o;
   Offset get st => xy;
 
-  /// Set a sub-field of the associated vec3 uniform by index.
+  /// Set all 3 sub-fields of the vec3 to the 3 provided values.
+  /// These values can represent any of (in order):
+  /// - x, y, z
+  /// - r, g, b
+  /// - s, t, p
+  void set(double v0, double v1, double v2) {
+    x = v0;
+    y = v1;
+    z = v2;
+  }
+
+  /// Set all 3 [r], [g], and [b] sub-fields of the vec3
+  /// to the associated color components of the [Color] object.
+  ///
+  /// When setting the vec3 from a color the alpha component of the color
+  /// is ignored. When getting the color from a vec3, an opaque color is
+  /// returned.
+  set color(Color c) {
+    set(c.r, c.g, c.b);
+  }
+  Color get color => Color.from(alpha: 1.0, red: r, green: g, blue: b);
+
+  /// Set a sub-field of the vec3 by index.
   /// * index 0 sets the [x] or [s] sub-field.
   /// * index 1 sets the [y] or [t] sub-field.
   /// * index 2 sets the [z] or [p] sub-field.
@@ -89,7 +126,7 @@ class Vec3 {
     }
   }
 
-  /// Get a sub-field of the associated vec3 uniform by index.
+  /// Get a sub-field of the vec3 by index.
   /// * index 0 gets the [x] or [s] sub-field.
   /// * index 1 gets the [y] or [t] sub-field.
   /// * index 2 gets the [z] or [p] sub-field.

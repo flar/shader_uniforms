@@ -25,7 +25,11 @@ import 'package:shader_uniforms/shader_uniforms.dart';
 /// - xy - an alias for the first 2 elements together expressed as an Offset
 /// - zw - an alias for the last 2 elements together expressed as an Offset
 /// - st - an alias for the first 2 elements together expressed as an Offset
-/// - pz - an alias for the last 2 elements together expressed as an Offset
+/// - pq - an alias for the last 2 elements together expressed as an Offset
+///
+/// - xyzw - an alias for all 4 elements together expressed as a Vec4
+/// - rgba - an alias for all 4 elements together expressed as a Vec4
+/// - stpq - an alias for all 4 elements together expressed as a Vec4
 ///
 /// - [] - indexing the elements as if they were a list:
 /// - [0] - the x element
@@ -46,65 +50,88 @@ class Vec4 {
     return NamedUniformVec4(shader: shader, name: name, offset: offset);
   }
 
-  /// Set the x sub-field of the associated vec4 uniform.
+  /// Set the x sub-field of the vec4.
   double x;
-  /// Set the y sub-field of the associated vec4 uniform.
+  /// Set the y sub-field of the vec4.
   double y;
-  /// Set the z sub-field of the associated vec4 uniform.
+  /// Set the z sub-field of the vec4.
   double z;
-  /// Set the w sub-field of the associated vec4 uniform.
+  /// Set the w sub-field of the vec4.
   double w;
 
-  /// Set the s sub-field of the associated vec4 uniform.
+  /// Set the s sub-field of the vec4 (aliased to [x]).
   set s(double s) => x = s;
   double get s => x;
-  /// Set the t sub-field of the associated vec4 uniform.
+  /// Set the t sub-field of the vec4 (aliased to [y]).
   set t(double t) => y = t;
   double get t => y;
-  /// Set the p sub-field of the associated vec4 uniform.
+  /// Set the p sub-field of the vec4 (aliased to [z]).
   set p(double p) => z = p;
   double get p => z;
-  /// Set the q sub-field of the associated vec4 uniform.
+  /// Set the q sub-field of the vec4 (aliased to [w]).
   set q(double q) => w = q;
   double get q => w;
 
-  /// Set the r sub-field of the associated vec4 uniform.
+  /// Set the r sub-field of the vec4 (aliased to [x]).
   set r(double r) => x = r;
   double get r => x;
-  /// Set the g sub-field of the associated vec4 uniform.
+  /// Set the g sub-field of the vec4 (aliased to [y]).
   set g(double g) => y = g;
   double get g => y;
-  /// Set the b sub-field of the associated vec4 uniform.
+  /// Set the b sub-field of the vec4 (aliased to [z]).
   set b(double b) => z = b;
   double get b => z;
-  /// Set the a sub-field of the associated vec4 uniform.
+  /// Set the a sub-field of the vec4 (aliased to [w]).
   set a(double a) => w = a;
   double get a => w;
 
-  /// Set both the [x] and [y] sub-fields of the associated vec4 uniform.
+  /// Set both the [x] and [y] sub-fields of the vec4.
   set xy(Offset o) { x = o.dx; y = o.dy; }
   Offset get xy => Offset(x, y);
-  /// Set both the [z] and [w] sub-fields of the associated vec4 uniform.
+  /// Set both the [z] and [w] sub-fields of the vec4.
   set zw(Offset o) { z = o.dx; w = o.dy; }
   Offset get zw => Offset(z, w);
-  /// Set both the [s] and [t] sub-fields of the associated vec4 uniform.
+  /// Set both the [s] and [t] sub-fields of the vec4 (aliased to [x] and [y]).
   set st(Offset o) => xy = o;
   Offset get st => xy;
-  /// Set both the [p] and [q] sub-fields of the associated vec4 uniform.
+  /// Set both the [p] and [q] sub-fields of the vec4 (aliased to [z] and [w]).
   set pq(Offset o) => zw = o;
   Offset get pq => zw;
 
-  /// Set all 4 [r], [g], [b], and [a] sub-fields of the associated vec4
-  /// uniform to the associated properties of the [Color] object.
+  /// Set all 4 of the [x], [y], [z] and [w] sub-fields of the vec4.
+  set xyzw(Vec4 v) => set(v.x, v.y, v.z, v.w);
+  Vec4 get xyzw => Vec4(x, y, z, w);
+
+  /// Set all 4 of the [s], [t], [p] and [q] sub-fields of the vec4
+  /// (aliased to [x], [y], [z] and [w]).
+  set stpq(Vec4 v) => xyzw = v;
+  Vec4 get stpq => xyzw;
+
+  /// Set all 4 of the [r], [g], [b] and [a] sub-fields of the vec4
+  /// (aliased to [x], [y], [z] and [w]).
+  set rgba(Vec4 v) => xyzw = v;
+  Vec4 get rgba => xyzw;
+
+  /// Set all 4 [r], [g], [b], and [a] sub-fields of the vec4
+  /// to the associated color and alpha components of the [Color] object.
   set color(Color c) {
-    r = c.r;
-    g = c.g;
-    b = c.b;
-    a = c.a;
+    set(c.r, c.g, c.b, c.a);
   }
   Color get color => Color.from(alpha: a, red: r, green: g, blue: b);
 
-  /// Set a sub-field of the associated vec4 uniform by index.
+  /// Set all 4 sub-fields of the vec4 to the 4 provided values.
+  /// These values can represent any of (in order):
+  /// - x, y, z, w
+  /// - r, g, b, a
+  /// - s, t, p, q
+  void set(double v0, double v1, double v2, double v3) {
+    x = v0;
+    y = v1;
+    z = v2;
+    w = v3;
+  }
+
+  /// Set a sub-field of the vec4 by index.
   /// * index 0 sets the [x] or [s] or [r] sub-field.
   /// * index 1 sets the [y] or [t] or [g] sub-field.
   /// * index 2 sets the [z] or [p] or [b] sub-field.
@@ -128,7 +155,7 @@ class Vec4 {
     }
   }
 
-  /// Get a sub-field of the associated vec4 uniform by index.
+  /// Get a sub-field of the vec4 by index.
   /// * index 0 gets the [x] or [s] or [r] sub-field.
   /// * index 1 gets the [y] or [t] or [g] sub-field.
   /// * index 2 gets the [z] or [p] or [b] sub-field.

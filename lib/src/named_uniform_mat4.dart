@@ -5,7 +5,6 @@
 import 'dart:ui';
 
 import 'package:shader_uniforms/shader_uniforms.dart';
-import 'package:shader_uniforms/src/named_uniform_vec4.dart';
 
 /// A utility class to manage the uniform fields of a `mat4` uniform in
 /// a shader `.frag` file.

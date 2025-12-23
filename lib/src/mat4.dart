@@ -23,8 +23,14 @@ import 'package:shader_uniforms/shader_uniforms.dart';
 /// ```
 class Mat4 {
   /// Instantiate a Mat4 class with all matrix elements initialized to
-  /// zeros.
-  Mat4() : _columns = <Vec4>[Vec4(), Vec4(), Vec4(), Vec4()];
+  /// zeros and the main diagonal initialized to a common value which
+  /// defaults to zero.
+  Mat4([double v = 0.0]) : _columns = <Vec4>[
+    Vec4(v, 0.0, 0.0, 0.0),
+    Vec4(0.0, v, 0.0, 0.0),
+    Vec4(0.0, 0.0, v, 0.0),
+    Vec4(0.0, 0.0, 0.0, v),
+  ];
 
   factory Mat4.fromIndex(FragmentShader shader, int base) {
     return UniformMat4(shader: shader, base: base);
